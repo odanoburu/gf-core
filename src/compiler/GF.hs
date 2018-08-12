@@ -1,5 +1,5 @@
 -- | GF, the Grammatical Framework, as a library
-module GF(
+module GF
            -- * Command line interface
            module GF.Main,
            module GF.Interactive,
