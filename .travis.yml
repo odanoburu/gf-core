@@ -12,5 +12,5 @@ before_install:
 script:
   - |
     docker run --mount src="$(pwd)",target=/home/gfer,type=bind odanoburu/gf-src:3.9 /bin/bash -c "cd /home/gfer/src/runtime/c &&
-    autoreconf -i && ./configure && make && make install ; cd /home/gfer ; cabal install -fserver -fc-runtime --extra-lib-dirs='/usr/local/lib'
-    ; gf --batch contrib/foods/*.gf"
+    autoreconf -i && ./configure && make && make install ; cd /home/gfer ; cabal install -fserver -fc-runtime --extra-lib-dirs='/usr/local/lib' ;
+    gf --batch /home/gfer/gf-contrib/foods/*.gf"
