@@ -69,7 +69,11 @@ flag network-uri
 
 flag c-runtime
   Description: Include functionality from the C run-time library (which must be installed already)
-  Default:     False
+  Default:     True
+
+flag gftest
+  Description: Include gftest binary
+  Default:     True
 
 Library
   default-language:    Haskell2010
@@ -130,7 +134,7 @@ Library
     PGF.Utilities
 
   if flag(c-runtime)
-    exposed-modules: PGF2
+    exposed-modules: PGF2 PGF2.Internal SG
     other-modules:   PGF2.FFI PGF2.Expr PGF2.Type
                      GF.Interactive2 GF.Command.Commands2
     hs-source-dirs:  src/runtime/haskell-bind
@@ -138,6 +142,10 @@ Library
     extra-libraries: pgf gu
     c-sources:       src/runtime/haskell-bind/utils.c
     cc-options:      -std=c99
+
+  if flag(gftest)
+    other-modules:   Mu, Graph, FMap, EqRel
+    hs-source-dirs:  src/tools/gftest/src
 
 ---- GF compiler as a library:
 
@@ -340,6 +348,14 @@ executable pgf-shell
   default-language:    Haskell2010
   if impl(ghc>=7.0)
     ghc-options: -rtsopts
+
+executable gftest
+--if !flag(gftest)
+  buildable: True
+  main-is:             Main.hs
+  hs-source-dirs:      src/tools/gftest/src
+  build-depends:       base, gf, cmdargs, containers, filepath
+  default-language:    Haskell2010
 
 test-suite gf-tests
   type:           exitcode-stdio-1.0
